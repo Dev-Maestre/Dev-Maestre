@@ -18,10 +18,7 @@ int search_list(int n,node *list);
 
 int main (void)
 {
-  node *list = (node *) malloc(sizeof(node));
-  if (!list) return -1;
-  list = NULL;
-
+  node *list = NULL;
 }
 
 bool exist_node(int n, node *list)
