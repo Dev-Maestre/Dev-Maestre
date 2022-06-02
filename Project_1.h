@@ -8,7 +8,8 @@ This is not meant to be used in production, only for study purpose
 All static functions are meant to be used internally, thus the _prefix format
 If user calls function with wrong parameters the function will either return and don't display any errors
 or behave improperly
-Functions { TODO
+Functions 
+{
 create list: takes a pointer and the first node of list 
 split: takes a two pointers, and split a pointer with the first list into two, where it creates two pointers and each points to its respective list
 insert: takes a pointer to insert list and a bool, which if true insert the node in crescent order, else need to be more one parameter that's the position of the node will be inserted
@@ -34,15 +35,15 @@ print: it prints ¯\_(ツ)_/¯
     334-343 Create a Circular List
     345-373 Split Circular List
     375-423 Insert Circular List
-    425-471 Remove Circular List
-    473-481 Print Circular List
-483  -> Implementation of Doubly Linked List
-    483-492 Create a Doubly List
-    494-515 Split Doubly List
-    517-567 Insert Doubly List
-    569-605 Remove Doubly List
-    607-615 Print Doubly List
-620  -> License
+    425-473 Remove Circular List
+    475-485 Print Circular List
+487  -> Implementation of Doubly Linked List
+    487-496 Create a Doubly List
+    498-519 Split Doubly List
+    521-571 Insert Doubly List
+    573-609 Remove Doubly List
+    611-619 Print Doubly List
+624  -> License
 
 
 
@@ -148,20 +149,6 @@ void node_split_list(node** list_split_from, node** list_split_to, int node_pos_
     *list_split_to = tmp_return;
 }
 
-void node_insert(node* list, int data, bool in_order, ...)
-{
-    if (list == NULL) return;
-    if (in_order) {
-        _node_insert_order(list, data);
-        return;
-    }
-    va_list arg;
-    va_start(arg, in_order);
-    int node_pos_data = va_arg(arg, int);
-    _node_insert_pos(list, data, node_pos_data);
-    va_end(arg);
-}
-
 static void _node_insert_order(node* list, int data)
 {
     node* tmp = (node*) malloc(sizeof(node));
@@ -195,18 +182,17 @@ static void _node_insert_pos(node* list, int data, int node_pos_data)
     list->next = tmp;
 }
 
-void node_remove(node** list, bool delete_all, ...)
+void node_insert(node* list, int data, bool in_order, ...)
 {
-    if (*list == NULL) return;
-    if (delete_all) {
-        _node_remove_all(*list);
-        *list = NULL;
+    if (list == NULL) return;
+    if (in_order) {
+        _node_insert_order(list, data);
         return;
     }
     va_list arg;
-    va_start(arg, delete_all);
+    va_start(arg, in_order);
     int node_pos_data = va_arg(arg, int);
-    _node_remove_pos(list, node_pos_data);
+    _node_insert_pos(list, data, node_pos_data);
     va_end(arg);
 }
 
@@ -237,6 +223,21 @@ static void _node_remove_pos(node** list, int node_pos_data)
         }
         tmp = tmp->next;
     } 
+}
+
+void node_remove(node** list, bool delete_all, ...)
+{
+    if (*list == NULL) return;
+    if (delete_all) {
+        _node_remove_all(*list);
+        *list = NULL;
+        return;
+    }
+    va_list arg;
+    va_start(arg, delete_all);
+    int node_pos_data = va_arg(arg, int);
+    _node_remove_pos(list, node_pos_data);
+    va_end(arg);
 }
 
 void node_print_list(node* list)
@@ -372,20 +373,6 @@ void c_node_split_list(node** list_split_from, node** list_split_to, int node_po
     *list_split_to = tmp;
 }
 
-void c_node_insert(node *list, int data, bool in_order, ...)
-{
-    if (list == NULL) return;
-    if (in_order) {
-        _c_node_insert_order(list, data);
-        return;
-    }
-    va_list arg;
-    va_start(arg, in_order);
-    int node_pos_data = va_arg(arg, int);
-    _c_node_insert_pos(list, data, node_pos_data);
-    va_end(arg);
-}
-
 static void _c_node_insert_order(node* list, int data)
 {
     node* tmp = (node*) malloc(sizeof(node));
@@ -422,19 +409,17 @@ static void _c_node_insert_pos(node *list, int data, int node_pos_data)
     list->next = tmp;
 }
 
-void c_node_remove(node** list, bool delete_all, ...)
+void c_node_insert(node *list, int data, bool in_order, ...)
 {
-    if(*list == NULL) return;
-    if (delete_all) {
-        _c_node_remove_all(*list);
-        //free(*list); this line is'n necessary in this function because the "free all" isn't recursive. 
-        *list = NULL;
+    if (list == NULL) return;
+    if (in_order) {
+        _c_node_insert_order(list, data);
         return;
     }
     va_list arg;
-    va_start(arg, delete_all);
+    va_start(arg, in_order);
     int node_pos_data = va_arg(arg, int);
-    _c_node_remove_pos(&(*list)->next, node_pos_data);
+    _c_node_insert_pos(list, data, node_pos_data);
     va_end(arg);
 }
 
@@ -453,9 +438,11 @@ static void _c_node_remove_pos(node** list, int node_pos_data)
 {
     node* tmp = *list;
     if (tmp->data == node_pos_data) { // case the node to remove its the first on list
+            while(tmp->next != *list)
+                tmp = tmp->next;
+            tmp->next = (*list)->next;
+            free(*list);
             *list = tmp->next;
-            free(tmp);
-            tmp = *list;
             return;
     }
 
@@ -470,8 +457,26 @@ static void _c_node_remove_pos(node** list, int node_pos_data)
     } 
 }
 
+void c_node_remove(node** list, bool delete_all, ...)
+{
+    if(*list == NULL) return;
+    if (delete_all) {
+        _c_node_remove_all(*list);
+        //free(*list); this line is'n necessary in this function because the "free all" isn't recursive. 
+        *list = NULL;
+        return;
+    }
+    va_list arg;
+    va_start(arg, delete_all);
+    int node_pos_data = va_arg(arg, int);
+    _c_node_remove_pos(&(*list), node_pos_data);
+    va_end(arg);
+}
+
 void c_node_print_list(node* list)
 {
+    if (list == NULL) return;
+    
     node *tmp = list;
     do
     {
@@ -514,20 +519,6 @@ void d_node_split_list(d_node** list_split_from, d_node** list_split_to, int nod
     (*list_split_to)->prev = NULL;
 }
 
-void d_node_insert(d_node *list, int data, bool in_order, ...)
-{
-    if (list == NULL) return;
-    if (in_order) {
-        _d_node_insert_order(list, data);
-        return;
-    }
-    va_list arg;
-    va_start(arg, in_order);
-    int node_pos_data = va_arg(arg, int);
-    _d_node_insert_pos(list, data, node_pos_data);
-    va_end(arg);
-}
-
 static void _d_node_insert_order(d_node* list, int data)
 {
     d_node* tmp = (d_node*) malloc(sizeof(d_node));
@@ -566,18 +557,17 @@ static void _d_node_insert_pos(d_node* list, int data, int node_pos_data)
         tmp->next->prev = tmp;
 }
 
-void d_node_remove(d_node **list, bool delete_all, ...)
+void d_node_insert(d_node *list, int data, bool in_order, ...)
 {
-    if(*list == NULL) return;
-    if (delete_all) {
-        _node_remove_all((node*) *list);
-        *list = NULL;
+    if (list == NULL) return;
+    if (in_order) {
+        _d_node_insert_order(list, data);
         return;
     }
     va_list arg;
-    va_start(arg, delete_all);
+    va_start(arg, in_order);
     int node_pos_data = va_arg(arg, int);
-    _d_node_remove_pos(list, node_pos_data);
+    _d_node_insert_pos(list, data, node_pos_data);
     va_end(arg);
 }
 
@@ -604,6 +594,21 @@ static void _d_node_remove_pos(d_node** list, int node_pos_data)
     } 
 }
 
+void d_node_remove(d_node **list, bool delete_all, ...)
+{
+    if(*list == NULL) return;
+    if (delete_all) {
+        _node_remove_all((node*) *list);
+        *list = NULL;
+        return;
+    }
+    va_list arg;
+    va_start(arg, delete_all);
+    int node_pos_data = va_arg(arg, int);
+    _d_node_remove_pos(list, node_pos_data);
+    va_end(arg);
+}
+
 void d_node_print_list(d_node *list)
 {
     if (list == NULL) return;
@@ -613,7 +618,6 @@ void d_node_print_list(d_node *list)
         list = list->next;
     }
 }
-
 
 #endif // _PROJECT1_H
 
