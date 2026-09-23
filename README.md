@@ -62,6 +62,6 @@ Graduate-studies portal in PHP/MySQL: calls for applications, enrollments, repor
 ---
 
 <p align="left">
-  <img src="https://github-readme-stats.vercel.app/api?username=Dev-Maestre&show_icons=true&locale=en&hide_title=true&count_private=true" alt="GitHub stats" height="140" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Dev-Maestre&layout=compact&hide_title=true&langs_count=8" alt="Top languages" height="140" />
+  <img src="https://denvercoder1-github-readme-stats.vercel.app/api?username=Dev-Maestre&show_icons=true&locale=en&hide_title=true" alt="GitHub stats" height="140" />
+  <img src="https://denvercoder1-github-readme-stats.vercel.app/api/top-langs/?username=Dev-Maestre&layout=compact&hide_title=true&langs_count=8" alt="Top languages" height="140" />
 </p>
