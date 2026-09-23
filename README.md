@@ -4,7 +4,7 @@
 
 I design and evolve production systems for financial operations: APIs, integrations, process automation, multi-tenant platforms, and asynchronous workloads. Parallel track in AI — reinforcement learning and multi-agent systems — through scientific initiation and thesis work at UTFPR.
 
-[Portfolio](https://portfolio-two-mauve-59.vercel.app/) · [LinkedIn](https://linkedin.com/in/gabriel-maestre) · [Email](mailto:maestrecosta@hotmail.com) · [CV (PDF)](https://portfolio-two-mauve-59.vercel.app/cv/gabriel-maestre-costa.pdf)
+[Portfolio](https://www.maestre-business.xyz/) · [LinkedIn](https://linkedin.com/in/gabriel-maestre) · [Email](mailto:maestrecosta@hotmail.com) · [CV (PDF)](https://www.maestre-business.xyz/cv/gabriel-maestre-costa.pdf)
 
 ---
 
